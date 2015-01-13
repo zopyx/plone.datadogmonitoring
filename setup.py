@@ -13,7 +13,7 @@ install_requires = [
 if sys.version_info < (2, 5):
     install_requires.append('threadframe')
 
-setup(name='haufe.requestmonitoring',
+setup(name='plone.datadogmonitoring',
       version=version,
       description="Zope 2 request monitoring",
       long_description=open("README.rst").read() + "\n" +
@@ -42,7 +42,7 @@ setup(name='haufe.requestmonitoring',
       license='ZPL',
       url='http://github.com/collective/haufe.requestmonitoring',
       packages=find_packages(exclude=['ez_setup']),
-      namespace_packages=['haufe'],
+      namespace_packages=['plone' ],
       include_package_data=True,
       zip_safe=False,
       install_requires=install_requires,
