@@ -3,7 +3,7 @@
 Introduction
 ============
 
-``haufe.requestmonitoring`` implements a detailed request logging functionality
+``plone.datadogmonitoring`` implements a detailed request logging functionality
 on top of the publication events as introduced with Zope 2.12.
 
 
@@ -98,7 +98,7 @@ Example::
 Monitoring long running requests
 --------------------------------
 
-``haufe.requestmonitoring`` allows you to monitor long-running request. The
+``plone.datadogmonitoring`` allows you to monitor long-running request. The
 following configuration within your ``zope.conf`` configuration file will
 install the DumpTracer and check after the ``period`` time passed for requests
 running longer than ``time``.
@@ -107,14 +107,14 @@ To activate this logging, both ``monitor.zcml`` must be activated (off by
 default) and the requestmonitor configuration section must be present::
 
     zope-conf-additional =
-        %import haufe.requestmonitoring
+        %import plone.datadogmonitoring
         <requestmonitor requestmonitor>
             # default is 1m
             period 10s
             # default is 1
             verbosity 2
             <monitorhandler dumper>
-                factory haufe.requestmonitoring.DumpTraceback.factory
+                factory plone.datadogmonitoring.DumpTraceback.factory
                 # 0 --> no repetition
                 repeat -1
                 time 10s
@@ -171,7 +171,7 @@ In that case you can disable traceback dump when you are executing the debugger.
 Installation
 ------------
 
-Add ``haufe.requestmonitoring`` to both ``eggs`` and ``zcml`` option of
+Add ``plone.datadogmonitoring`` to both ``eggs`` and ``zcml`` option of
 your buildout.cfg file.
 
 Author
@@ -184,7 +184,7 @@ Author
 License
 =======
 
-``haufe.requestmonitoring`` is published under the Zope Public License V 2.1
+``plone.datadogmonitoring`` is published under the Zope Public License V 2.1
 (ZPL). See LICENSE.txt.
 
 
