@@ -48,8 +48,6 @@ from zope.component import adapter, provideHandler
 from zope.app.appsetup.interfaces import IProcessStartingEvent
 from ZPublisher.interfaces import IPubStart, IPubSuccess, IPubFailure
 
-from Rotator import Rotator
-
 from interfaces import ITicket, IInfo, IStatus
 
 _log_format = '%s %3d %10.4f %c %6d %s\n'
@@ -88,8 +86,6 @@ def start_timelogging(unused):
     config = getConfiguration().product_config.get('timelogging')
     if config is None:
         return  # not configured
-    global _logfile
-    _logfile = Rotator(config['filebase'], lock=True)
     # indicate restart
     _log('0', info='restarted')
     # register publication observers
@@ -141,13 +137,18 @@ def handle_request_failure(event):
         response.__dict__.update(saved)  # restore response again
 
 
+from dogapi import dog_stats_api as dog
+dog.start(statsd=True,
+          statsd_host='localhost',
+          statsd_port=8125)
+
 def _log(type, status=0, request_id=0, request_time=0, info=''):
-    _logfile.write(_log_format % (
-        strftime(_log_time_format),
-        status,
-        request_time,
-        type,
-        request_id,
-        info,
-    )
-    )
+
+    tags = ['http-{}'.format(status),
+            'type-{}'.format(type),
+            'url-{}'.format(info)] 
+
+    dog.increment('onkopedia.requests', tags=tags)
+    dog.histogram('onkopedia.response_time', request_time, tags=tags)
+
+
