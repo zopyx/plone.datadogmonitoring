@@ -8,6 +8,7 @@ install_requires = [
     'setuptools',
     'Zope2',
     'zope.app.appsetup',
+    'dogapi',
 ]
 
 if sys.version_info < (2, 5):
